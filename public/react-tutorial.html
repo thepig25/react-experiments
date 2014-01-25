@@ -1,67 +1,33 @@
 <!doctype html>
-<html>
+<html class="no-js" lang="en">
 
 <head>
-
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>React - Tutorial</title>
-
-    <!--
-        React tutorial here:
-        http://facebook.github.io/react/docs/tutorial.html
-    -->
-
-    <style type="text/css">
-        [xdata-reactid] {
-            border: 1px dashed salmon;
-            padding: 10px;
-        }
-        #container {
-            margin-bottom: 100px;
-        }
-        .comment {
-            margin-bottom: 10px;
-            padding: 10px;
-            border: 1px solid #000;
-        }
-        .comment__author {
-            font-weight: bold;
-        }
-        .comment__text p:first-child {
-            margin-top: 0;
-        }
-        .comment__text p:last-child {
-            margin-bottom: 0;
-        }
-        .errors {
-            border: 1px solid red;
-            padding: 5px;
-            background-color: lightpink;
-            margin-bottom: 10px;
-            color: red;
-        }
-        .commentForm input {
-            width: 200px;
-        }
-        .commentForm textarea {
-            width: 196px;
-            height: 100px;
-            border: 2px inset;
-        }
-    </style>
-
+    <link rel="stylesheet" href="lib/foundation/css/foundation.css" />
+    <script src="lib/foundation/js/vendor/modernizr.js"></script>
 </head>
 
 <body>
 
-    <h1>React Tutorial - Comment Box</h1>
-
-    <p>Enhanced with an ExpressJS endpoint...</p>
+    <div class="row">
+        <div class="large-12 columns">
+            <h1>React Tutorial - Comment Box</h1>
+            <p>Enhanced with an ExpressJS endpoint, and Foundation5!.</p>
+        </div>
+    </div>
 
     <!-- Where we'll render into -->
-    <div id="container"></div>
+    <div class="row">
+        <div class="large-12 columns">
+            <div id="container"></div>
+        </div>
+    </div>
 
     <!-- JavaScript libraries -->
-    <script src="lib/jquery-1.11.0.min.js"></script>
+    <script src="lib/foundation/js/vendor/jquery.js"></script>
+    <script src="lib/foundation/js/foundation.min.js"></script>
     <script src="lib/showdown.min.js"></script>
     <script src="lib/react/react.min.js"></script>
 
@@ -86,13 +52,18 @@
                 formTitle: 'Have your say!',
                 listTitle: 'User Comments',
                 source: 'data/comments.json',
-                target: '/addComment',
-                pollInterval: 1000
+                target: '/addComment'
+                // Polling sucks. Websockets? Slower polling?
+                //pollInterval: 1000
             }),
             document.getElementById('container')
         );
 
         console.timeEnd('reactRender');
+
+        // Now bind foundation stuff?
+        // What about DOM replacement? Need to hook into components also.
+        $(document).foundation();
 
     </script>
 
