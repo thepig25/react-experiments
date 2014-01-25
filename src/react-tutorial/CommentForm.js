@@ -11,7 +11,7 @@ var CommentForm = React.createClass({
             var rawMarkup = converter.makeHtml(this.state.errorText);
             return (
                 <div className="commentForm">
-                    <h2>Have your say...</h2>
+                    <h2>{this.props.title}</h2>
                     <div className="errors" dangerouslySetInnerHTML={{__html: rawMarkup}}/>
                     <form className="commentForm" onSubmit={this.handleSubmit}>
                         <input type="text" placeholder="Your name" ref="author" />
@@ -23,7 +23,7 @@ var CommentForm = React.createClass({
         } else {
             return (
                 <div className="commentForm">
-                    <h2>Have your say...</h2>
+                    <h2>{this.props.title}</h2>
                     <form className="commentForm" onSubmit={this.handleSubmit}>
                         <input type="text" placeholder="Your name" ref="author" />
                         <input type="text" placeholder="Say something..." ref="text" />

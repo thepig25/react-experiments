@@ -10,7 +10,10 @@ var CommentList = React.createClass({
         });
 
         return (
-            <div className="commentList">{commentNodes}</div>
+            <div className="commentList">
+                <h2>{ this.props.title }</h2>
+                {commentNodes}
+            </div>
         );
     }
 });
