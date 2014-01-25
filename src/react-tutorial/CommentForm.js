@@ -62,8 +62,6 @@ var CommentForm = React.createClass({
             text: textNode.value.trim()
         };
 
-        debugger;
-
         // Disable form fields
         authorNode.disabled = 'true';
         textNode.disabled = 'true';
