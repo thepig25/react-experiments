@@ -11,6 +11,10 @@
     -->
 
     <style type="text/css">
+        [xdata-reactid] {
+            border: 1px dashed salmon;
+            padding: 10px;
+        }
         .comment {
             margin-bottom: 10px;
             padding: 10px;
@@ -19,10 +23,10 @@
         .comment__author {
             font-weight: bold;
         }
-        .comment__body p:first-child {
+        .comment__text p:first-child {
             margin-top: 0;
         }
-        .comment__body p:last-child {
+        .comment__text p:last-child {
             margin-bottom: 0;
         }
     </style>
@@ -31,7 +35,7 @@
 
 <body>
 
-    <h1>React Tutorial - Comments Box</h1>
+    <h1>React Tutorial - Comment Box</h1>
 
     <!-- Where we'll render into -->
     <div id="container"></div>
@@ -52,17 +56,22 @@
 
         // Main application JS code. Wire everything up.
 
-        console.time('appRun');
-
         // Markdown parser.
         var converter = new Showdown.converter();
 
+        console.time('reactRender');
+
         React.renderComponent(
-            CommentBox({ title: 'User Comments' }),
+            CommentBox({
+                title: 'User Comments',
+                source: 'data/comments.json',
+                target: '/addComment',
+                pollInterval: 1000
+            }),
             document.getElementById('container')
         );
 
-        console.timeEnd('appRun');
+        console.timeEnd('reactRender');
 
     </script>
 
