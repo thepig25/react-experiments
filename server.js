@@ -1,4 +1,4 @@
-/*global require, console, __dirname*/
+/*global require, console, __dirname, setTimeout*/
 /**
  * Simple demo server, expressjs
  */
@@ -7,19 +7,19 @@ var fs = require('fs');
 var express = require('express');
 var app = express();
 
-var commentsFilePath = __dirname + '/public/data/comments.json';
+var FAKE_FAILURE_CHANCE = 0.5;
+var FAKE_LAG_TIMEOUT = 5000;
+var COMMENTS_FILE_PATH = __dirname + '/public/data/comments.json';
 
 // Middleware
 app.use(express.bodyParser()); // For form data.
 
-// Very simple endpoint to add comments to the json file we've got.
+/**
+ * Very simple endpoint to add comments to the json file we've got.
+ */
 app.post('/addComment', function(req, res){
 
     console.log('addComment, body:', req.body);
-
-    // Load current comments file in lieu of a databse.
-    // TODO Use something like pouchdb for online/offline sync?
-    var comments = JSON.parse(fs.readFileSync(commentsFilePath));
 
     // TODO Real validation system.
     var errors = [];
@@ -37,25 +37,40 @@ app.post('/addComment', function(req, res){
         return;
     }
 
-    // Append
-    comments.push(req.body);
+    // Adding fake server lag for demo purposes - see FAKE_LAG_TIMEOUT.
+    console.log('fake lag starting...');
+    setTimeout(function () {
 
-    // Write back to disk
-    fs.writeFile(commentsFilePath, JSON.stringify(comments, null, 4), function (err) {
-        if (err) {
-            // Basic response payload to let the frontend know it worked.
-            res.send({
-                success: false,
-                errors: [ err ]
-            });
-        } else {
-            // Basic response payload to let the frontend know it worked.
-            res.send({
-                success: true,
-                message: 'Comment added successfully!'
-            });
+        console.log('fake lag complete, processing');
+
+        // Mock a failure scenario
+        if (Math.random() < FAKE_FAILURE_CHANCE) {
+            res.send(500, { error: 'Something blew up! :)' });
+            return;
         }
-    });
+
+        // Load current comments file in lieu of a databse.
+        // TODO Use something like pouchdb for online/offline sync?
+        var comments = JSON.parse(fs.readFileSync(COMMENTS_FILE_PATH));
+
+        // Append
+        comments.push(req.body);
+
+        // Write back to disk
+        fs.writeFile(COMMENTS_FILE_PATH, JSON.stringify(comments, null, 4), function (err) {
+            if (err) {
+                // Basic response payload to let the frontend know it worked.
+                res.send(500, { error: 'Failed to update comments file on server' });
+            } else {
+                // Basic response payload to let the frontend know it worked.
+                res.send({
+                    success: true,
+                    message: 'Comment added successfully!'
+                });
+            }
+        });
+
+    }.bind(this), FAKE_LAG_TIMEOUT);
 
 });
 
