@@ -6,21 +6,65 @@
     <title>React Tutorial</title>
 
     <!--
-        React tutorial here: http://facebook.github.io/react/docs/tutorial.html
+        React tutorial here:
+        http://facebook.github.io/react/docs/tutorial.html
     -->
+
+    <style type="text/css">
+        .comment {
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #000;
+        }
+        .comment__author {
+            font-weight: bold;
+        }
+        .comment__body p:first-child {
+            margin-top: 0;
+        }
+        .comment__body p:last-child {
+            margin-bottom: 0;
+        }
+    </style>
 
 </head>
 
 <body>
 
-<h1>React Tutorial - Comments Box</h1>
+    <h1>React Tutorial - Comments Box</h1>
 
-<!-- Where we'll render into -->
-<div id="container"></div>
+    <!-- Where we'll render into -->
+    <div id="container"></div>
 
-<!-- JavaScript libraries -->
-<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
-<script src="lib/react/react.min.js"></script>
+    <!-- JavaScript libraries -->
+    <script src="lib/jquery-1.11.0.min.js"></script>
+    <script src="lib/showdown.min.js"></script>
+    <script src="lib/react/react.min.js"></script>
+
+    <!-- Application components. A build step would be nice here. -->
+    <script src="build/react-tutorial/CommentBox.js"></script>
+    <script src="build/react-tutorial/CommentList.js"></script>
+    <script src="build/react-tutorial/Comment.js"></script>
+    <script src="build/react-tutorial/CommentForm.js"></script>
+
+    <!-- Bootstrap JS -->
+    <script type="text/javascript">
+
+        // Main application JS code. Wire everything up.
+
+        console.time('appRun');
+
+        // Markdown parser.
+        var converter = new Showdown.converter();
+
+        React.renderComponent(
+            CommentBox({ title: 'User Comments' }),
+            document.getElementById('container')
+        );
+
+        console.timeEnd('appRun');
+
+    </script>
 
 </body>
 
