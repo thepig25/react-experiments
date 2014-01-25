@@ -37,6 +37,9 @@ Error: Parse Error: Line 9: Unexpected identifier
 ```
 So therefore all React components are typically wrapped in their own container (good anyway).
 
+There's a Google Chrome extension for React:
+https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi/related
+
 ## JSX vs JS
 
 http://facebook.github.io/react/docs/jsx-in-depth.html

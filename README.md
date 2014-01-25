@@ -36,6 +36,12 @@ You can use React's jsx program in watch mode:
 node ./node_modules/react-tools/bin/jsx --watch src/ public/build/
 ```
 
+## React Developer Tools for Google Chrome
+
+Useful for debugging:
+
+<https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi/related>
+
 # TODO
 
 ## react-tutorial
@@ -43,4 +49,5 @@ node ./node_modules/react-tools/bin/jsx --watch src/ public/build/
 * Add Foundation v5 or Twitter bootstrap to the project, get things looking pretty
 * Consider a FormErrors component, for nice display of error messages.
 * Consider pouchdb or simliar, for offline storage of comments.
+* Consider socket.io mixin - github.com/Enome/react.io
 
