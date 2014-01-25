@@ -1,10 +1,10 @@
-# Backbone - React - Table
+# React Experiments
 
 ## Goals
 
 * Learn how to use React, Facebook's "new" view/rendering framework.
 * Learn how to integrate Backbone with React, essentially replacing Backbone.View with React.
-* See how easy it is to render large table with React, adding in some behaviours (TBC).
+* See how easy it is to render large table with Backbone + React, adding in some behaviours (TBC).
 
 ## Offline JSX compiling
 
