@@ -5,16 +5,40 @@
 var CommentForm = React.createClass({
 
     render: function () {
-        return (
-            <div className="commentForm">
-                <h2>Have your say...</h2>
-                <form className="commentForm" onSubmit={this.handleSubmit}>
-                    <input type="text" placeholder="Your name" ref="author" />
-                    <input type="text" placeholder="Say something..." ref="text" />
-                    <input type="submit" value="Post" />
-                </form>
-            </div>
-        );
+
+        // FIXME Need a nicer way to conditionally render components. Perhaps just display: none?
+        if (this.state.errorText.trim() !== '') {
+            var rawMarkup = converter.makeHtml(this.state.errorText);
+            return (
+                <div className="commentForm">
+                    <h2>Have your say...</h2>
+                    <div className="errors" dangerouslySetInnerHTML={{__html: rawMarkup}}/>
+                    <form className="commentForm" onSubmit={this.handleSubmit}>
+                        <input type="text" placeholder="Your name" ref="author" />
+                        <input type="text" placeholder="Say something..." ref="text" />
+                        <input type="submit" value="Post" />
+                    </form>
+                </div>
+            );
+        } else {
+            return (
+                <div className="commentForm">
+                    <h2>Have your say...</h2>
+                    <form className="commentForm" onSubmit={this.handleSubmit}>
+                        <input type="text" placeholder="Your name" ref="author" />
+                        <input type="text" placeholder="Say something..." ref="text" />
+                        <input type="submit" value="Post" />
+                    </form>
+                </div>
+            );
+        }
+
+    },
+
+    getInitialState: function () {
+        return {
+            errorText: ''
+        };
     },
 
     /**
@@ -24,6 +48,8 @@ var CommentForm = React.createClass({
     handleSubmit: function () {
 
         console.debug('TODO handleSubmit');
+
+        // TODO Add client-side validation? Or just use Abide?
 
         var xhr = $.ajax({
             type: 'POST',
@@ -39,10 +65,20 @@ var CommentForm = React.createClass({
 
             console.debug('handleSubmit response:', response);
 
-            // Wipe values upon success
-            // This is how we hook into the dom? What about just using state?
-            this.refs.author.getDOMNode().value = '';
-            this.refs.text.getDOMNode().value = '';
+            if (response.success) {
+
+                // Wipe values upon success
+                // This is how we hook into the dom? What about just using state?
+                this.refs.author.getDOMNode().value = '';
+                this.refs.text.getDOMNode().value = '';
+
+            } else {
+                this.setState({
+                    errorText: response.errors.join('<br/>')
+                });
+            }
+
+            // TODO Show errors on screen.
 
         }.bind(this));
 

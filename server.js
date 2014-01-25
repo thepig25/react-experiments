@@ -1,4 +1,4 @@
-/*global require, console*/
+/*global require, console, __dirname*/
 /**
  * Simple demo server, expressjs
  */
@@ -22,21 +22,19 @@ app.post('/addComment', function(req, res){
     var comments = JSON.parse(fs.readFileSync(commentsFilePath));
 
     // TODO Real validation system.
+    var errors = [];
     if (req.body.author === void 0 || req.body.author.trim() === '') {
-        res.send({
-            success: false,
-            fieldErrors: {
-                author: 'author is required'
-            }
-        });
+        errors.push('**author** is required');
     }
     if (req.body.text === void 0 || req.body.text.trim() === '') {
+        errors.push('**text** is required');
+    }
+    if (errors.length > 0) {
         res.send({
             success: false,
-            fieldErrors: {
-                text: 'text is required'
-            }
+            errors: errors
         });
+        return;
     }
 
     // Append
@@ -48,7 +46,7 @@ app.post('/addComment', function(req, res){
             // Basic response payload to let the frontend know it worked.
             res.send({
                 success: false,
-                globalErrors: err
+                errors: [ err ]
             });
         } else {
             // Basic response payload to let the frontend know it worked.
