@@ -10,9 +10,12 @@ var CommentForm = React.createClass({
         var errorsComponent = null;
         if (this.state.errorText.trim() !== '') {
             var rawMarkup = converter.makeHtml(this.state.errorText);
+			/* jshint ignore:start */
             errorsComponent = <div className="errors" dangerouslySetInnerHTML={{__html: rawMarkup}}/>
+			/* jshint ignore:end */
         }
 
+		/* jshint ignore:start */
         return (
             <div className="commentForm">
                 <h2>{this.props.title}</h2>
@@ -26,6 +29,7 @@ var CommentForm = React.createClass({
                 </form>
             </div>
         );
+		/* jshint ignore:end */
 
     },
 
