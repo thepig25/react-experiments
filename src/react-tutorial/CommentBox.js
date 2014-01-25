@@ -27,6 +27,7 @@ var CommentBox = React.createClass({
      */
     getInitialState: function () {
         return {
+            isPolling: false,
             comments: []
         };
     },
@@ -51,11 +52,25 @@ var CommentBox = React.createClass({
      */
     loadCommentsFromServer: function () {
 
+        if (this.state.isPolling) {
+            return;
+        }
+
+        this.setState({
+            isPolling: true
+        });
+
         var xhr = $.ajax({
             cache: false, // ignore server caching headers, for "live" reloads
             url: this.props.source,
             dataType: 'json'
         });
+
+        xhr.always(function () {
+           this.setState({
+               isPolling: false
+           })
+        }.bind(this));
 
         xhr.done(function (comments) {
             this.setState({
@@ -67,9 +82,6 @@ var CommentBox = React.createClass({
             console.error('CommentBox failed loading source:', this.props.source, 'err:', err.toString());
         }.bind(this));
 
-        // Return the promise for other potential actions.
-        return xhr;
-
     },
 
     /**
@@ -79,10 +91,20 @@ var CommentBox = React.createClass({
      */
     handleCommentSubmit: function (newComment, xhr) {
 
+        this.setState({
+            isPolling: true
+        });
+
         // Add the new comment and trigger a render using setState.
         var comments = this.state.comments;
         comments.push(newComment);
         this.setState({ comments: comments });
+
+        xhr.always(function () {
+            this.setState({
+                isPolling: false
+            });
+        }.bind(this));
 
         // If the XHR fails, remove the comment!
         xhr.fail(function () {
