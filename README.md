@@ -22,7 +22,7 @@ npm install
 npm start
 ```
 
-And fire up [http://localhost:3000]
+And fire up <http://localhost:3000>
 
 The index.html page has links to each experiment.
 
