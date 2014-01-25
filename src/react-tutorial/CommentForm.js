@@ -64,6 +64,7 @@ var CommentForm = React.createClass({
 
     /**
      * AJAX style form submission.
+	 * TODO This kind of thing should be abstracted and shared, really. That's why I like jQuery plugins.
      * @returns {boolean} Always false - to block browser form submission.
      */
     handleSubmit: function () {
