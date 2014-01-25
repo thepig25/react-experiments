@@ -40,8 +40,8 @@ node ./node_modules/react-tools/bin/jsx --watch src/ public/build/
 
 ## react-tutorial
 
+* Add Foundation v5 or Twitter bootstrap to the project, get things looking pretty
 * Consider a FormErrors component, for nice display of error messages.
 * Consider pouchdb or simliar, for offline storage of comments.
 * Async addComment render - emulate a slow server response and pretend success (also client val).
-* Allow only ONE XHR to be active at any time - abort() previous first?
 
