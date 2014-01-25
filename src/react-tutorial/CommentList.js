@@ -4,12 +4,13 @@
  */
 var CommentList = React.createClass({
     render: function () {
+
+        var commentNodes = this.props.comments.map(function (comment) {
+            return <Comment author={comment.author}>{comment.text}</Comment>;
+        });
+
         return (
-            <div className="commentList">
-                <Comment author="Pete Hunt">This is **one** comment</Comment>
-                <Comment author="Roger Moore">I want to be **James Bond** again!</Comment>
-                <Comment author="Jordan Walke">This is **another** comment</Comment>
-            </div>
+            <div className="commentList">{commentNodes}</div>
         );
     }
 });
