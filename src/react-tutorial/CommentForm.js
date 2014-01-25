@@ -72,6 +72,11 @@ var CommentForm = React.createClass({
                 this.refs.author.getDOMNode().value = '';
                 this.refs.text.getDOMNode().value = '';
 
+                // Q Does this trigger a re-render? No worry, React handles? :)
+                this.setState({
+                    errorText: ''
+                });
+
             } else {
                 this.setState({
                     errorText: response.errors.join('<br/>')
