@@ -1,0 +1,11 @@
+{
+    "name": "backbone-react-table",
+    "version" : "0.0.1",
+    "author": "Scott Maclure <scott@maclure.com.au>",
+    "description": "Demo of using Backbone and React to render a large table",
+    "repository": null,
+    "dependencies": {
+        "backbone": "1.1.x",
+        "react-tools": "0.8.x"
+    }
+}
