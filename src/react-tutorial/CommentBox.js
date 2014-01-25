@@ -11,8 +11,12 @@ var CommentBox = React.createClass({
     render: function () {
         return (
             <div className="commentBox">
-                <CommentForm title={this.props.formTitle} target={this.props.target}/>
                 <CommentList title={this.props.listTitle} comments={this.state.comments}/>
+                <CommentForm
+                    title={this.props.formTitle}
+                    target={this.props.target}
+                    onCommentSubmit={this.handleCommentSubmit}
+                />
             </div>
             );
     },
@@ -32,8 +36,14 @@ var CommentBox = React.createClass({
      * The key to dynamic updates is this.setState().
      */
     componentWillMount: function () {
+
         this.loadCommentsFromServer();
-        setInterval(this.loadCommentsFromServer, (this.props.pollInterval || 5000));
+
+        // Only poll if we enable the feature. Else rely on optimistic updates.
+        if (this.props.pollInterval && this.props.pollInterval > 0) {
+            setInterval(this.loadCommentsFromServer, (this.props.pollInterval));
+        }
+
     },
 
     /**
@@ -59,6 +69,28 @@ var CommentBox = React.createClass({
 
         // Return the promise for other potential actions.
         return xhr;
+
+    },
+
+    /**
+     * Event passed from child component. Like event bubbling in vanilla JS.
+     * @param newComment
+     * @param xhr
+     */
+    handleCommentSubmit: function (newComment, xhr) {
+
+        // Add the new comment and trigger a render using setState.
+        var comments = this.state.comments;
+        comments.push(newComment);
+        this.setState({ comments: comments });
+
+        // If the XHR fails, remove the comment!
+        xhr.fail(function () {
+            console.debug('handleCommentSubmit xhr fail');
+            var comments = this.state.comments;
+            comments.pop();
+            this.setState({ comments: comments });
+        }.bind(this));
 
     }
 

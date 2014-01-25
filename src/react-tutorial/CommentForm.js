@@ -15,8 +15,10 @@ var CommentForm = React.createClass({
                     <div className="errors" dangerouslySetInnerHTML={{__html: rawMarkup}}/>
                     <form className="commentForm" onSubmit={this.handleSubmit}>
                         <input type="text" placeholder="Your name" ref="author" />
-                        <input type="text" placeholder="Say something..." ref="text" />
-                        <input type="submit" value="Post" />
+                        <br/>
+                        <textarea placeholder="Say something..." ref="text" />
+                        <br/>
+                        <input type="submit" value="Post" ref="submit" />
                     </form>
                 </div>
             );
@@ -26,8 +28,10 @@ var CommentForm = React.createClass({
                     <h2>{this.props.title}</h2>
                     <form className="commentForm" onSubmit={this.handleSubmit}>
                         <input type="text" placeholder="Your name" ref="author" />
-                        <input type="text" placeholder="Say something..." ref="text" />
-                        <input type="submit" value="Post" />
+                        <br/>
+                        <textarea placeholder="Say something..." ref="text" />
+                        <br/>
+                        <input type="submit" value="Post" ref="submit" />
                     </form>
                 </div>
             );
@@ -47,19 +51,41 @@ var CommentForm = React.createClass({
      */
     handleSubmit: function () {
 
-        console.debug('TODO handleSubmit');
-
         // TODO Add client-side validation? Or just use Abide?
 
+        var authorNode = this.refs.author.getDOMNode();
+        var textNode = this.refs.text.getDOMNode();
+        var submitNode = this.refs.submit.getDOMNode();
+
+        var newComment = {
+            author: authorNode.value.trim(),
+            text: textNode.value.trim()
+        };
+
+        debugger;
+
+        // Disable form fields
+        authorNode.disabled = 'true';
+        textNode.disabled = 'true';
+        submitNode.value = 'Saving...';
+        submitNode.disabled = 'true';
+
+        // Let CommentForm actually send off the comment, we'll pass this info up to CommentBox.
         var xhr = $.ajax({
             type: 'POST',
             url: this.props.target,
-            data: {
-                author: this.refs.author.getDOMNode().value.trim(),
-                text: this.refs.text.getDOMNode().value.trim()
-            },
+            data: newComment,
             dataType: 'json'
         });
+
+        // Note: always triggers before done.
+        xhr.always(function () {
+            // Allow user input again.
+            authorNode.disabled = false;
+            textNode.disabled = false;
+            submitNode.disabled = false;
+            submitNode.value = 'Post';
+        }.bind(this));
 
         xhr.done(function (response) {
 
@@ -69,8 +95,8 @@ var CommentForm = React.createClass({
 
                 // Wipe values upon success
                 // This is how we hook into the dom? What about just using state?
-                this.refs.author.getDOMNode().value = '';
-                this.refs.text.getDOMNode().value = '';
+                authorNode.value = '';
+                textNode.value = '';
 
                 // Q Does this trigger a re-render? No worry, React handles? :)
                 this.setState({
@@ -88,6 +114,15 @@ var CommentForm = React.createClass({
         }.bind(this));
 
         // TODO fail scenario.
+        xhr.fail(function (xhr, status, err) {
+            this.setState({
+                errorText: err
+            });
+        }.bind(this));
+
+        // This triggers an event for the parent component to make use of.
+        // Note that this is outside the xhr callbacks - optimistic update!
+        this.props.onCommentSubmit(newComment, xhr);
 
         // Prevent default form handler
         return false;
