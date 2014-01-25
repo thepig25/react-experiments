@@ -8,6 +8,8 @@
 
 ## Offline JSX compiling
 
+All of the experiments use JSX, so you need to compile `src/` into `public/build/`.
+
 ```sh
 npm install -g react-tools
 ```
@@ -17,3 +19,8 @@ To compile JSX into JS:
 ```sh
 jsx --watch src/ build/
 ```
+
+## Experiments
+
+* public/hello-world.html - basic, single component use. Makes use of `props`.
+* public/react-tutorial - following the react tutorial, on their homepage.
