@@ -42,6 +42,23 @@ Useful for debugging:
 
 <https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi/related>
 
+## Generating mock json data
+
+Type this into your console and smoke it:
+
+```
+var comments = [];
+var authorName = 'Roy Baty v';
+var authorText = 'This is comment #';
+for (var i = 0; i < 500; i++) {
+	comments.push({
+		author: authorName + i,
+		text: authorText + i
+    });
+}
+JSON.stringify(comments, null, 4);
+```
+
 # TODO
 
 ## react-tutorial
