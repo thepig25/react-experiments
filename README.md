@@ -61,10 +61,13 @@ JSON.stringify(comments, null, 4);
 
 # TODO
 
+## general
+
+* Find a nice solution for JSHint + JSX (https://github.com/CondeNast/JSXHint?) (dangerouslySetInnerHTML={{__html: rawMarkup}})
+* Add Foundation v5 or Twitter bootstrap to the project, get things looking pretty. JS integration?
+
 ## react-tutorial
 
-* Add Foundation v5 or Twitter bootstrap to the project, get things looking pretty
-* Consider a FormErrors component, for nice display of error messages.
+* Consider Websocket for comment updates - socket.io mixin? - github.com/Enome/react.io
+* Consider a FormErrors component, for nice display of error messages (Foundation Abide?)
 * Consider pouchdb or simliar, for offline storage of comments.
-* Consider socket.io mixin - github.com/Enome/react.io
-

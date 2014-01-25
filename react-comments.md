@@ -50,6 +50,17 @@ On the fence on this one. I think it will matter more when composing nested comp
 
 Add "React" to your "globals" property in `.jshintrc`.
 
-Not sure yet how JSHint will play with JSX syntactic sugar.
+Ignore directive <http://www.jshint.com/docs/>
 
-"Unclosed regular expression"
+```
+/* jshint ignore:start */
+return (
+    <div className="comment">
+        <div className="comment__author">{ this.props.author }</div>
+        <div className="comment__text" dangerouslySetInnerHTML={{__html: rawMarkup}}/>
+    </div>
+);
+/* jshint ignore:end */
+```
+
+People also suggest just running JSHint over the transformed JS files, but I find that silly, because I want my IDE to lint in realtime.
