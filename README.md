@@ -13,7 +13,7 @@
 
 ## Installation and running these experiments
 
-Clone the repo to your machine, then:
+From your terminal/git bash console:
 
 ```sh
 git clone git@github.com:ScottMaclure/react-experiments.git
@@ -22,9 +22,9 @@ npm install
 npm start
 ```
 
-http://localhost:3000
+And fire up [http://localhost:3000]
 
-The index page has links to each experiment.
+The index.html page has links to each experiment.
 
 ## Offline JSX compiling
 
