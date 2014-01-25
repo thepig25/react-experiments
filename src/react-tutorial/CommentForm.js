@@ -6,36 +6,26 @@ var CommentForm = React.createClass({
 
     render: function () {
 
-        // FIXME Need a nicer way to conditionally render components. Perhaps just display: none?
+        // Conditionally setup a child component only if there's errors.
+        var errorsComponent = null;
         if (this.state.errorText.trim() !== '') {
             var rawMarkup = converter.makeHtml(this.state.errorText);
-            return (
-                <div className="commentForm">
-                    <h2>{this.props.title}</h2>
-                    <div className="errors" dangerouslySetInnerHTML={{__html: rawMarkup}}/>
-                    <form className="commentForm" onSubmit={this.handleSubmit}>
-                        <input type="text" placeholder="Your name" ref="author" />
-                        <br/>
-                        <textarea placeholder="Say something..." ref="text" />
-                        <br/>
-                        <input type="submit" value="Post" ref="submit" />
-                    </form>
-                </div>
-            );
-        } else {
-            return (
-                <div className="commentForm">
-                    <h2>{this.props.title}</h2>
-                    <form className="commentForm" onSubmit={this.handleSubmit}>
-                        <input type="text" placeholder="Your name" ref="author" />
-                        <br/>
-                        <textarea placeholder="Say something..." ref="text" />
-                        <br/>
-                        <input type="submit" value="Post" ref="submit" />
-                    </form>
-                </div>
-            );
+            errorsComponent = <div className="errors" dangerouslySetInnerHTML={{__html: rawMarkup}}/>
         }
+
+        return (
+            <div className="commentForm">
+                <h2>{this.props.title}</h2>
+                {errorsComponent}
+                <form className="commentForm" onSubmit={this.handleSubmit}>
+                    <input type="text" placeholder="Your name" ref="author" />
+                    <br/>
+                    <textarea placeholder="Say something..." ref="text" />
+                    <br/>
+                    <input type="submit" value="Post" ref="submit" />
+                </form>
+            </div>
+        );
 
     },
 
