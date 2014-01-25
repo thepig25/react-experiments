@@ -1,5 +1,4 @@
 /**
- * global React
  * exported HelloWorld
  *
  * Note how I have the global statement in this comment block - limitation of JSX compiler.
