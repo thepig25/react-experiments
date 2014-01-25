@@ -26,6 +26,17 @@ Similarities in src/build files can lead to confusion in the IDE - you have to b
 
 `this.props.children.toString()` - this will be encoded by default, for safety, need raw?
 
+props (immutable) vs state (internal changing data etc)
+
+The key to dynamic updates is this.setState().
+
+render function should only return a single XML object:
+```
+Error while reading module react-tutorial/CommentForm:
+Error: Parse Error: Line 9: Unexpected identifier
+```
+So therefore all React components are typically wrapped in their own container (good anyway).
+
 ## JSX vs JS
 
 http://facebook.github.io/react/docs/jsx-in-depth.html
