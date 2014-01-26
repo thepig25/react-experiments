@@ -11,7 +11,7 @@ var CommentBox = React.createClass({
 	render: function () {
 		/* jshint ignore:start */
 		return (
-			<div className="commentBox">
+			<div className="commentBox panel">
 				<CommentList title={this.props.listTitle} comments={this.state.comments}/>
 				<CommentForm
 					title={this.props.formTitle}

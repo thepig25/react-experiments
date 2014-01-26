@@ -46,6 +46,8 @@ http://facebook.github.io/react/docs/jsx-in-depth.html
 
 On the fence on this one. I think it will matter more when composing nested components. When building basic stuff, it seems like more cruft in webapps.
 
+They call JSX -> JX process "transpiling". :)
+
 ## JSHint Integration
 
 Add "React" to your "globals" property in `.jshintrc`.

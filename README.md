@@ -71,3 +71,4 @@ JSON.stringify(comments, null, 4);
 * Consider Websocket for comment updates - socket.io mixin? - github.com/Enome/react.io
 * Consider a FormErrors component, for nice display of error messages (Foundation Abide?)
 * Consider pouchdb or simliar, for offline storage of comments.
+* Add a date field to comments, perhaps invert render order

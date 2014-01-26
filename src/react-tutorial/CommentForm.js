@@ -6,12 +6,14 @@ var CommentForm = React.createClass({
 
     render: function () {
 
+		console.debug('CommentForm#render, now:', new Date().getMilliseconds());
+
         // Conditionally setup a child component only if there's errors.
         var errorsComponent = null;
         if (this.state.errorText.trim() !== '') {
             var rawMarkup = converter.makeHtml(this.state.errorText);
 			/* jshint ignore:start */
-            errorsComponent = <div className="errors" dangerouslySetInnerHTML={{__html: rawMarkup}}/>
+            errorsComponent = <div className="alert-box warning" dangerouslySetInnerHTML={{__html: rawMarkup}}/>
 			/* jshint ignore:end */
         }
 
@@ -20,12 +22,26 @@ var CommentForm = React.createClass({
             <div className="commentForm">
                 <h2>{this.props.title}</h2>
                 {errorsComponent}
-                <form className="commentForm" onSubmit={this.handleSubmit}>
-                    <input type="text" placeholder="Your name" ref="author" />
-                    <br/>
-                    <textarea placeholder="Say something..." ref="text" />
-                    <br/>
-                    <input type="submit" value="Post" ref="submit" />
+                <form data-abide className="commentFormForm" onSubmit={this.handleSubmit} ref="form">
+					<div className="row">
+						<div className="large-12 columns author-field">
+							<label>Your Name</label>
+							<input type="text" placeholder="Keyser Söze" ref="author" required pattern="alpha" />
+							<small className="error">Author is required and must be a string.</small>
+						</div>
+					</div>
+					<div className="row">
+						<div className="large-12 columns text-field">
+							<label>Your Comments</label>
+							<textarea placeholder="Say something..." ref="text" required pattern="alpha"/>
+							<small className="error">Comments are required and must be a string.</small>
+						</div>
+					</div>
+					<div className="row">
+						<div className="large-12 columns">
+							<button type="submit" ref="submit">{this.props.submitText}</button>
+						</div>
+					</div>
                 </form>
             </div>
         );
@@ -33,23 +49,44 @@ var CommentForm = React.createClass({
 
     },
 
+	getDefaultProps: function () {
+		return {
+			submitText: 'Post Comment'
+		}
+	},
+
     getInitialState: function () {
         return {
-            errorText: ''
+            errorText: '',
+			submitButtonText: 'Post Comment'
         };
     },
 
     /**
      * AJAX style form submission.
+	 * TODO This kind of thing should be abstracted and shared, really. That's why I like jQuery plugins.
      * @returns {boolean} Always false - to block browser form submission.
      */
     handleSubmit: function () {
 
-        // TODO Add client-side validation? Or just use Abide?
-
+		var $formNode = $(this.refs.form.getDOMNode());
         var authorNode = this.refs.author.getDOMNode();
         var textNode = this.refs.text.getDOMNode();
         var submitNode = this.refs.submit.getDOMNode();
+
+		// Trigger abide validation, and check.
+		$formNode.trigger('validate');
+		var isValid = $formNode.find('[data-invalid]').length === 0;
+		if (!isValid) {
+			this.setState({
+				errorText: 'Field validation errors detected. Please review and try again.'
+			});
+			return;
+		} else {
+			this.setState({
+				errorText: ''
+			});
+		}
 
         var newComment = {
             author: authorNode.value.trim(),
@@ -59,8 +96,8 @@ var CommentForm = React.createClass({
         // Disable form fields
         authorNode.disabled = 'true';
         textNode.disabled = 'true';
-        submitNode.value = 'Saving...';
-        submitNode.disabled = 'true';
+        submitNode.className = 'button disabled';
+		submitNode.innerHTML = 'Saving...';
 
         // Let CommentForm actually send off the comment, we'll pass this info up to CommentBox.
         var xhr = $.ajax({
@@ -75,8 +112,8 @@ var CommentForm = React.createClass({
             // Allow user input again.
             authorNode.disabled = false;
             textNode.disabled = false;
-            submitNode.disabled = false;
-            submitNode.value = 'Post';
+			submitNode.className = 'button';
+			submitNode.innerHTML = this.props.submitText;
         }.bind(this));
 
         xhr.done(function (response) {
@@ -101,11 +138,8 @@ var CommentForm = React.createClass({
                 });
             }
 
-            // TODO Show errors on screen.
-
         }.bind(this));
 
-        // TODO fail scenario.
         xhr.fail(function (xhr, status, err) {
             this.setState({
                 errorText: err
