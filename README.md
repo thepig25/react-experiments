@@ -72,3 +72,8 @@ JSON.stringify(comments, null, 4);
 * Consider a FormErrors component, for nice display of error messages (Foundation Abide?)
 * Consider pouchdb or simliar, for offline storage of comments.
 * Add a date field to comments, perhaps invert render order
+
+## react-table
+
+* Code review on ReactTabe.js
+* Add "delete row" support
