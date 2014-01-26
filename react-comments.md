@@ -4,11 +4,23 @@
 
 How does a component dynamically render components? i.e. N Comments in a CommentList component.
 
+## Key choices of React
+
+1) Abandon templates. Underpowered, fail in creating complex UIs. Not a meaningful implemtation of "separation of concerns". Markup and display logic share the same concern, so why separate them? Can use standard programming for rendering UI (i.e. map() and filter()). This was learned from fighting Mustache @ Instagram.
+
+2) Re-render on data change. React makes re-rendering cheap, which simplifies the whole thing for a developer. State is maintained.
+
+3) Lightweight implementation of DOM and events. Faster than real dom, events still work cross-browser, including event bubbling. Means React works in IE8, including some html5 events (which ones?)
+
+React diffs against the real DOM and computes the minimal amount of changes to achieve it (called reconciliation). Key point is React can apply these DOM changes in a single animation frame.
+
+This also means that React can render on the server, without the need for a DOM, in pure node. They're also experimenting with web-workers and React, to push native-like performance on mobile devices.
+
 ## General
 
 React homepage and getting started guide were good.
 
-If you use the JSX transformer, you have to serve pages, rather than file://.
+If you use the JSX transformer, you have to serve pages, rather than file:// (CORS).
 
 Will work nicely within our grunt processes. Can the "jsx" CLI work in a single-run mode? So we can hook it into a grunt watch task?
 
