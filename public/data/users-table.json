@@ -1,0 +1,22 @@
+{
+	"headers": [
+		"id",
+		"fullName",
+		"email",
+		"updated"
+	],
+	"data": [
+		[
+			123,
+			"John Smith",
+			"john@smith.com",
+			"2014-01-26T04:17:38.026Z"
+		],
+		[
+			456,
+			"Peter Pan",
+			"peter@pan.com",
+			"2014-01-26T04:17:40.026Z"
+		]
+	]
+}
