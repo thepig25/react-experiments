@@ -65,6 +65,7 @@ JSON.stringify(comments, null, 4);
 
 * Find a nice solution for JSHint + JSX (https://github.com/CondeNast/JSXHint?) (dangerouslySetInnerHTML={{__html: rawMarkup}})
 * Add Foundation v5 or Twitter bootstrap to the project, get things looking pretty. JS integration?
+* Go through our components, and make use of propTypes (http://facebook.github.io/react/docs/component-specs.html)
 
 ## react-tutorial
 
