@@ -76,5 +76,6 @@ JSON.stringify(comments, null, 4);
 
 ## react-table
 
-* Code review on ReactTabe.js
+* Code review on ReactTable.js
 * Add "delete row" support
+* Implement "marionette-table" and "angular-table" for comparison! Within this repo is fine.
