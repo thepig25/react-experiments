@@ -1,34 +1,57 @@
 <!doctype html>
-<html>
+<html class="no-js" lang="en">
 
     <head>
-        <title>Backbone - React - Table</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Backbone Table</title>
+        <link rel="stylesheet" href="lib/foundation/css/foundation.css" />
+        <script src="lib/foundation/js/vendor/modernizr.js"></script>
     </head>
 
     <body>
 
-        <h1>Backbone - React - Table</h1>
+        <div class="row">
+            <div class="large-12 columns">
+                <h1>Backbone Table - Test</h1>
+                <p>Backbone and React working together.</p>
+            </div>
+        </div>
 
-        <!-- Where we'll render into -->
-        <div id="container"></div>
+        <!-- React's container -->
+        <div class="row">
+            <div class="large-12 columns">
+                <div id="container" class="panel"></div>
+            </div>
+        </div>
 
         <!-- JavaScript libraries -->
-        <script src="lib/jquery-1.11.0.min.js"></script>
+        <script src="lib/foundation/js/vendor/jquery.js"></script>
+        <script src="lib/foundation/js/foundation.min.js"></script>
         <script src="lib/react/react.min.js"></script>
 
         <!-- Application components. A build step would be nice here. -->
+        <script src="build/react-table/ReactTable.js"></script>
 
         <!-- Bootstrap JS -->
         <script type="text/javascript">
 
-            // Main application JS code. Wire everything up.
+            // Request a UI-centric data display.
+            var xhr = $.ajax({
+                cache: false,
+                url: 'data/users-table.json',
+                dataType: 'json'
+            });
 
-            console.time('reactRender');
+            xhr.done(function (data) {
 
-            //TODO React.renderComponent
-            //document.getElementById('container')
+                console.time('reactRender');
 
-            console.timeEnd('reactRender');
+                React.renderComponent(ReactTable(data), document.getElementById('container'));
+
+                console.timeEnd('reactRender');
+
+            });
 
         </script>
 
