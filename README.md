@@ -36,11 +36,48 @@ You can use React's jsx program in watch mode:
 node ./node_modules/react-tools/bin/jsx --watch src/ public/build/
 ```
 
-# TODO
+## React Developer Tools for Google Chrome
 
-## react-tutorial
+Useful for debugging:
 
-* Consider a FormErrors component, for nice display of error messages.
+<https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi/related>
+
+## Generating mock json data
+
+Check out the `scripts/` folder for some JSON generator programs. Typical use:
+
+```
+node scripts/usersTableDataGenerator.js  > public/data/users-table.json
+```
+
+## TODO
+
+### general
+
+* Find a nice solution for JSHint + JSX (https://github.com/CondeNast/JSXHint?) (dangerouslySetInnerHTML={{__html: rawMarkup}})
+* Add Foundation v5 or Twitter bootstrap to the project, get things looking pretty. JS integration?
+* Go through our components, and make use of propTypes (http://facebook.github.io/react/docs/component-specs.html)
+
+### react-tutorial
+
+* Consider Websocket for comment updates - socket.io mixin? - github.com/Enome/react.io
+* Consider a FormErrors component, for nice display of error messages (Foundation Abide?)
 * Consider pouchdb or simliar, for offline storage of comments.
-* Async addComment render - emulate a slow server response and pretend success (also client val).
+* Add a date field to comments, perhaps invert render order
 
+### react-table
+
+* Code review on ReactTabe.js
+* Add "delete row" support
+* Add "delete row" support
+* Implement "marionette-table" and "angular-table" for comparison! Within this repo is fine.
+
+## Further Reading
+
+http://blog.whn.se/post/69621609605/writing-good-react-components
+
+http://www.reddit.com/r/javascript/comments/1oo1y8
+
+https://github.com/usepropeller/react.backbone
+
+http://eldar.djafarov.com/2013/11/reactjs-mixing-with-backbone/

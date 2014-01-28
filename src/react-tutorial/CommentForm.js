@@ -6,60 +6,115 @@ var CommentForm = React.createClass({
 
     render: function () {
 
-        // FIXME Need a nicer way to conditionally render components. Perhaps just display: none?
+		console.debug('CommentForm#render, now:', new Date().getMilliseconds());
+
+        // Conditionally setup a child component only if there's errors.
+        var errorsComponent = null;
         if (this.state.errorText.trim() !== '') {
             var rawMarkup = converter.makeHtml(this.state.errorText);
-            return (
-                <div className="commentForm">
-                    <h2>{this.props.title}</h2>
-                    <div className="errors" dangerouslySetInnerHTML={{__html: rawMarkup}}/>
-                    <form className="commentForm" onSubmit={this.handleSubmit}>
-                        <input type="text" placeholder="Your name" ref="author" />
-                        <input type="text" placeholder="Say something..." ref="text" />
-                        <input type="submit" value="Post" />
-                    </form>
-                </div>
-            );
-        } else {
-            return (
-                <div className="commentForm">
-                    <h2>{this.props.title}</h2>
-                    <form className="commentForm" onSubmit={this.handleSubmit}>
-                        <input type="text" placeholder="Your name" ref="author" />
-                        <input type="text" placeholder="Say something..." ref="text" />
-                        <input type="submit" value="Post" />
-                    </form>
-                </div>
-            );
+			/* jshint ignore:start */
+            errorsComponent = <div className="alert-box warning" dangerouslySetInnerHTML={{__html: rawMarkup}}/>
+			/* jshint ignore:end */
         }
+
+		/* jshint ignore:start */
+        return (
+            <div className="commentForm">
+                <h2>{this.props.title}</h2>
+                {errorsComponent}
+                <form data-abide className="commentFormForm" onSubmit={this.handleSubmit} ref="form">
+					<div className="row">
+						<div className="large-12 columns author-field">
+							<label>Your Name</label>
+							<input type="text" placeholder="Keyser Söze" ref="author" required pattern="alpha" />
+							<small className="error">Author is required and must be a string.</small>
+						</div>
+					</div>
+					<div className="row">
+						<div className="large-12 columns text-field">
+							<label>Your Comments</label>
+							<textarea placeholder="Say something..." ref="text" required pattern="alpha"/>
+							<small className="error">Comments are required and must be a string.</small>
+						</div>
+					</div>
+					<div className="row">
+						<div className="large-12 columns">
+							<button type="submit" ref="submit">{this.props.submitText}</button>
+						</div>
+					</div>
+                </form>
+            </div>
+        );
+		/* jshint ignore:end */
 
     },
 
+	getDefaultProps: function () {
+		return {
+			submitText: 'Post Comment'
+		}
+	},
+
     getInitialState: function () {
         return {
-            errorText: ''
+            errorText: '',
+			submitButtonText: 'Post Comment'
         };
     },
 
     /**
      * AJAX style form submission.
+	 * TODO This kind of thing should be abstracted and shared, really. That's why I like jQuery plugins.
      * @returns {boolean} Always false - to block browser form submission.
      */
     handleSubmit: function () {
 
-        console.debug('TODO handleSubmit');
+		var $formNode = $(this.refs.form.getDOMNode());
+        var authorNode = this.refs.author.getDOMNode();
+        var textNode = this.refs.text.getDOMNode();
+        var submitNode = this.refs.submit.getDOMNode();
 
-        // TODO Add client-side validation? Or just use Abide?
+		// Trigger abide validation, and check.
+		$formNode.trigger('validate');
+		var isValid = $formNode.find('[data-invalid]').length === 0;
+		if (!isValid) {
+			this.setState({
+				errorText: 'Field validation errors detected. Please review and try again.'
+			});
+			return;
+		} else {
+			this.setState({
+				errorText: ''
+			});
+		}
 
+        var newComment = {
+            author: authorNode.value.trim(),
+            text: textNode.value.trim()
+        };
+
+        // Disable form fields
+        authorNode.disabled = 'true';
+        textNode.disabled = 'true';
+        submitNode.className = 'button disabled';
+		submitNode.innerHTML = 'Saving...';
+
+        // Let CommentForm actually send off the comment, we'll pass this info up to CommentBox.
         var xhr = $.ajax({
             type: 'POST',
             url: this.props.target,
-            data: {
-                author: this.refs.author.getDOMNode().value.trim(),
-                text: this.refs.text.getDOMNode().value.trim()
-            },
+            data: newComment,
             dataType: 'json'
         });
+
+        // Note: always triggers before done.
+        xhr.always(function () {
+            // Allow user input again.
+            authorNode.disabled = false;
+            textNode.disabled = false;
+			submitNode.className = 'button';
+			submitNode.innerHTML = this.props.submitText;
+        }.bind(this));
 
         xhr.done(function (response) {
 
@@ -69,8 +124,8 @@ var CommentForm = React.createClass({
 
                 // Wipe values upon success
                 // This is how we hook into the dom? What about just using state?
-                this.refs.author.getDOMNode().value = '';
-                this.refs.text.getDOMNode().value = '';
+                authorNode.value = '';
+                textNode.value = '';
 
                 // Q Does this trigger a re-render? No worry, React handles? :)
                 this.setState({
@@ -83,11 +138,17 @@ var CommentForm = React.createClass({
                 });
             }
 
-            // TODO Show errors on screen.
-
         }.bind(this));
 
-        // TODO fail scenario.
+        xhr.fail(function (xhr, status, err) {
+            this.setState({
+                errorText: err
+            });
+        }.bind(this));
+
+        // This triggers an event for the parent component to make use of.
+        // Note that this is outside the xhr callbacks - optimistic update!
+        this.props.onCommentSubmit(newComment, xhr);
 
         // Prevent default form handler
         return false;

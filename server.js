@@ -1,4 +1,4 @@
-/*global require, console, __dirname*/
+/*global require, console, __dirname, setTimeout*/
 /**
  * Simple demo server, expressjs
  */
@@ -7,55 +7,70 @@ var fs = require('fs');
 var express = require('express');
 var app = express();
 
-var commentsFilePath = __dirname + '/public/data/comments.json';
+var FAKE_FAILURE_CHANCE = 0.5;
+var FAKE_LAG_TIMEOUT = 5000;
+var COMMENTS_FILE_PATH = __dirname + '/public/data/comments.json';
 
 // Middleware
 app.use(express.bodyParser()); // For form data.
 
-// Very simple endpoint to add comments to the json file we've got.
-app.post('/addComment', function(req, res){
+/**
+ * Very simple endpoint to add comments to the json file we've got.
+ */
+app.post('/addComment', function (req, res) {
 
-    console.log('addComment, body:', req.body);
+	console.log('addComment, body:', req.body);
 
-    // Load current comments file in lieu of a databse.
-    // TODO Use something like pouchdb for online/offline sync?
-    var comments = JSON.parse(fs.readFileSync(commentsFilePath));
+	// TODO Real validation system.
+	var errors = [];
+	if (req.body.author === void 0 || req.body.author.trim() === '') {
+		errors.push('**author** is required');
+	}
+	if (req.body.text === void 0 || req.body.text.trim() === '') {
+		errors.push('**text** is required');
+	}
+	if (errors.length > 0) {
+		res.send({
+			success: false,
+			errors: errors
+		});
+		return;
+	}
 
-    // TODO Real validation system.
-    var errors = [];
-    if (req.body.author === void 0 || req.body.author.trim() === '') {
-        errors.push('**author** is required');
-    }
-    if (req.body.text === void 0 || req.body.text.trim() === '') {
-        errors.push('**text** is required');
-    }
-    if (errors.length > 0) {
-        res.send({
-            success: false,
-            errors: errors
-        });
-        return;
-    }
+	// Adding fake server lag for demo purposes - see FAKE_LAG_TIMEOUT.
+	console.log('fake lag starting...');
+	setTimeout(function () {
 
-    // Append
-    comments.push(req.body);
+		console.log('fake lag complete, processing');
 
-    // Write back to disk
-    fs.writeFile(commentsFilePath, JSON.stringify(comments, null, 4), function (err) {
-        if (err) {
-            // Basic response payload to let the frontend know it worked.
-            res.send({
-                success: false,
-                errors: [ err ]
-            });
-        } else {
-            // Basic response payload to let the frontend know it worked.
-            res.send({
-                success: true,
-                message: 'Comment added successfully!'
-            });
-        }
-    });
+		// Mock a failure scenario
+		if (Math.random() < FAKE_FAILURE_CHANCE) {
+			res.send(500, { error: 'Something blew up! :)' });
+			return;
+		}
+
+		// Load current comments file in lieu of a databse.
+		// TODO Use something like pouchdb for online/offline sync?
+		var comments = JSON.parse(fs.readFileSync(COMMENTS_FILE_PATH));
+
+		// Append
+		comments.push(req.body);
+
+		// Write back to disk
+		fs.writeFile(COMMENTS_FILE_PATH, JSON.stringify(comments, null, 4), function (err) {
+			if (err) {
+				// Basic response payload to let the frontend know it worked.
+				res.send(500, { error: 'Failed to update comments file on server' });
+			} else {
+				// Basic response payload to let the frontend know it worked.
+				res.send({
+					success: true,
+					message: 'Comment added successfully!'
+				});
+			}
+		});
+
+	}.bind(this), FAKE_LAG_TIMEOUT);
 
 });
 
@@ -64,4 +79,4 @@ app.use(express.static(__dirname + '/public'));
 
 app.listen(3000);
 
-console.log('Listening on port 3000');
+console.log('Server running, to view: http://localhost:3000');
