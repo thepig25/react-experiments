@@ -20,8 +20,8 @@ var ReactTable = React.createClass({
 		var desc = state.sortby === by;
 		var one = function(boo) {return boo ? 1 : -1};
 		state.data = state.data.sort(function(a, b) {
-			var numa = Number(a[by].replace(/,/g, '')),
-				numb = Number(b[by].replace(/,/g, ''));
+			var numa = isNaN(a[by]) ? Number(a[by].replace(/,/g, '')) : a[by],
+				numb = isNaN(b[by]) ? Number(b[by].replace(/,/g, '')) : b[by];
 			if (isNaN(numa)) {
 				return isNaN(numb)
 					? one(desc ? a[by] < b[by] : a[by] > b[by]) // two strings
