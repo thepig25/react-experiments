@@ -78,3 +78,15 @@ return (
 ```
 
 People also suggest just running JSHint over the transformed JS files, but I find that silly, because I want my IDE to lint in realtime.
+
+## Mobile Performance - Optimizing for Touch
+
+From http://www.reddit.com/r/javascript/comments/1oo1y8
+
+> React really shines in terms of performance when you want to optimize. React optimizations are just one-liner methods added to a single component to provide "hints" to React to help it short-circuit change detection. We should really write a blog about this, but usually you can add one simple line of code and get crazy (20x) speedups.
+
+> With Angular you have to basically turn off data binding for parts of your application since it relies on dirty checking via $watch(). This is slow because you have to keep two copies of the data model around (expensive) and do an O(n) check on each change. At this point you lose many of the benefits of Angular.
+
+> The thing is, Angular's philosophy about performance is that 50ms is imperceptible to humans and is an adequate level of performance (http://stackoverflow.com/questions/9682092/databinding-in-angularjs). I think this is crazy: when motion is involved humans can perceive hiccups as small as 16ms (which is why browsers run at 60fps. Movies run at 30fps because the camera captures motion blur). 
+
+> So if you want to use declarative data binding for direct manipulation via touch, you're gonna want to be able to do it in under 16ms. That's the level of performance we aim for (and get) with React. You have to work around Angular to get that level of performance.
