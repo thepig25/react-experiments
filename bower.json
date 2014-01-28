@@ -1,0 +1,21 @@
+{
+	"name": "react-experiments",
+	"version": "0.0.1",
+	"homepage": "https://github.com/ScottMaclure/react-experiments",
+	"authors": [
+		"Scott Maclure <scott@maclure.com.au>"
+	],
+	"license": "MIT",
+	"private": true,
+	"ignore": [
+		"**/.*",
+		"node_modules",
+		"public/bower_components"
+	],
+	"dependencies": {
+		"foundation": "5.x",
+		"react": "0.8.x",
+		"showdown": "0.3.x",
+		"marionette": "0.5.x"
+	}
+}

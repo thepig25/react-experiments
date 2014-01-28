@@ -9,6 +9,7 @@
 ## Requirements
 
 * node/npm
+* bower
 * git
 
 ## Installation and running these experiments
@@ -18,6 +19,7 @@ From your terminal/git bash console:
 ```sh
 git clone git@github.com:ScottMaclure/react-experiments.git
 cd react-experiments
+bower install
 npm install
 npm start
 ```
