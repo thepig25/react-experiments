@@ -69,6 +69,8 @@ node scripts/usersTableDataGenerator.js  > public/data/users-table.json
 
 * Code review on ReactTabe.js
 * Add "delete row" support
+* Add "delete row" support
+* Implement "marionette-table" and "angular-table" for comparison! Within this repo is fine.
 
 ## Further Reading
 
