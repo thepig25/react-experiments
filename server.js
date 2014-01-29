@@ -82,8 +82,32 @@ app.post('/addComment', function(req, res){
 });
 
 
-app.put('/users-table', function(req, res){
-   //console.log(JSON.stringify(req.body.row));
+app.put('/generate-users', function (req, res) {
+    var cdb = nano.use('users');
+    var users = {docs: []};
+
+    for (var i = 0; i <= 5000; i++) {
+        var fullName = chance.name();
+        users.docs.push({
+            fullName: fullName,
+            email: [fullName.replace(' ', '_').toLowerCase(), chance.domain()].join('@'),
+            updated: chance.date().toJSON()
+        });
+    }
+
+    cdb.bulk(users, function (err, body) {
+        res.send({
+            err: err
+        });
+    });
+
+});
+
+app.get('/users', function (req, res) {
+    var cdb = nano.use('users');
+    cdb.view('info', 'full', function (err, body) {
+        res.send(body);
+    });
 });
 
 // Default folder is the public sub-folder.
