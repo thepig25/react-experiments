@@ -74,6 +74,11 @@ app.post('/addComment', function(req, res){
 
 });
 
+
+app.put('/users-table', function(req, res){
+   //console.log(JSON.stringify(req.body.row));
+});
+
 // Default folder is the public sub-folder.
 app.use(express.static(__dirname + '/public'));
 
