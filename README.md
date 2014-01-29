@@ -9,6 +9,7 @@
 ## Requirements
 
 * node/npm
+* bower
 * git
 
 ## Installation and running these experiments
@@ -18,6 +19,7 @@ From your terminal/git bash console:
 ```sh
 git clone git@github.com:ScottMaclure/react-experiments.git
 cd react-experiments
+bower install
 npm install
 npm start
 ```
@@ -44,37 +46,40 @@ Useful for debugging:
 
 ## Generating mock json data
 
-Type this into your console and smoke it:
+Check out the `scripts/` folder for some JSON generator programs. Typical use:
 
 ```
-var comments = [];
-var authorName = 'Roy Baty v';
-var authorText = 'This is comment #';
-for (var i = 0; i < 500; i++) {
-	comments.push({
-		author: authorName + i,
-		text: authorText + i
-    });
-}
-JSON.stringify(comments, null, 4);
+node scripts/usersTableDataGenerator.js  > public/data/users-table.json
 ```
 
-# TODO
+## TODO
 
-## general
+### general
 
 * Find a nice solution for JSHint + JSX (https://github.com/CondeNast/JSXHint?) (dangerouslySetInnerHTML={{__html: rawMarkup}})
 * Add Foundation v5 or Twitter bootstrap to the project, get things looking pretty. JS integration?
 * Go through our components, and make use of propTypes (http://facebook.github.io/react/docs/component-specs.html)
 
-## react-tutorial
+### react-tutorial
 
 * Consider Websocket for comment updates - socket.io mixin? - github.com/Enome/react.io
 * Consider a FormErrors component, for nice display of error messages (Foundation Abide?)
 * Consider pouchdb or simliar, for offline storage of comments.
 * Add a date field to comments, perhaps invert render order
 
-## react-table
+### react-table
 
 * Code review on ReactTabe.js
 * Add "delete row" support
+* Add "delete row" support
+* Implement "marionette-table" and "angular-table" for comparison! Within this repo is fine.
+
+## Further Reading
+
+http://blog.whn.se/post/69621609605/writing-good-react-components
+
+http://www.reddit.com/r/javascript/comments/1oo1y8
+
+https://github.com/usepropeller/react.backbone
+
+http://eldar.djafarov.com/2013/11/reactjs-mixing-with-backbone/
