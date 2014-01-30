@@ -11,8 +11,11 @@
 * node/npm
 * bower
 * git
+* CouchDB
 
 ## Installation and running these experiments
+
+Install CouchDB if you don't have it already (http://docs.couchdb.org/en/latest/install/index.html) and configure it to run on port :5984 (alter scritps/couchdb.sh otherwise)
 
 From your terminal/git bash console:
 
@@ -25,6 +28,12 @@ npm start
 ```
 
 And fire up <http://localhost:3000>
+
+Now you have to create `users` database, db view, and populate it with initial mock data
+Make sure CouchDB is running, then from your terminal/git bash console run:
+```sh
+    . scripts/couchdb.sh
+```
 
 The index.html page has links to each experiment.
 
