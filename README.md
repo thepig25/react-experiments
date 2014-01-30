@@ -15,7 +15,6 @@
 
 ## Installation and running these experiments
 
-Install CouchDB if you don't have it already (http://docs.couchdb.org/en/latest/install/index.html) and configure it to run on port :5984 (alter scritps/couchdb.sh otherwise)
 
 From your terminal/git bash console:
 
@@ -27,7 +26,9 @@ npm install
 npm start
 ```
 
-And fire up <http://localhost:3000>
+Install CouchDB if you don't have it already (http://docs.couchdb.org/en/latest/install/index.html) and configure it to run on port :5984 (alter scritps/couchdb.sh otherwise)
+
+Enable CORS: https://wiki.apache.org/couchdb/CORS#Enabling_CORS
 
 Now you have to create `users` database, db view, and populate it with initial mock data
 Make sure CouchDB is running, then from your terminal/git bash console run:
@@ -35,6 +36,7 @@ Make sure CouchDB is running, then from your terminal/git bash console run:
     . scripts/couchdb.sh
 ```
 
+And fire up <http://localhost:3000>
 The index.html page has links to each experiment.
 
 ## Offline JSX compiling
