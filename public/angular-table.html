@@ -1,0 +1,60 @@
+<!doctype html>
+<html class="no-js" lang="en">
+
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Angular - Tutorial</title>
+        <link rel="stylesheet" href="bower_components/foundation/css/foundation.css" />
+        <script src="bower_components/foundation/js/vendor/modernizr.js"></script>
+    </head>
+
+    <body>
+
+        <div class="row">
+            <div class="large-12 columns">
+                <h1>Angular Table - Test</h1>
+                <p>Large JSON datasource, dynamic table support. Later I might add BackboneJS and angular in there too.</p>
+            </div>
+        </div>
+
+        <!-- React's container -->
+        <div class="row">
+            <div class="large-12 columns">
+                <div id="container" class="panel"></div>
+            </div>
+        </div>
+
+        <!-- JavaScript libraries -->
+        <script src="bower_components/foundation/js/vendor/jquery.js"></script>
+        <script src="bower_components/foundation/js/foundation.min.js"></script>
+        <script src="bower_components/angular/angular.min.js"></script>
+
+        <!-- Application components. A build step would be nice here. -->
+        <script src="build/angular-table/AngularTable.js"></script>
+
+        <!-- Bootstrap JS -->
+        <script type="text/javascript">
+
+            // Request a UI-centric data display.
+            var xhr = $.ajax({
+                cache: false,
+                url: 'data/users-table.json',
+                dataType: 'json'
+            });
+
+            xhr.done(function (data) {
+
+                console.time('reactRender');
+
+                React.renderComponent(ReactTable(data), document.getElementById('container'));
+
+                console.timeEnd('reactRender');
+
+            });
+
+        </script>
+
+    </body>
+
+</html>
