@@ -87,10 +87,16 @@ app.put('/generate-users', function (req, res) {
     var users = {docs: []};
 
     for (var i = 0; i <= 5000; i++) {
-        var fullName = chance.name();
+        var first = chance.first();
+        var last = chance.last();
+        var full = [first, last].join(' ');
         users.docs.push({
-            fullName: fullName,
-            email: [fullName.replace(' ', '_').toLowerCase(), chance.domain()].join('@'),
+            firstName: first,
+            lastName: last,
+            email: [full.replace(' ', '_').toLowerCase(), chance.domain()].join('@'),
+            //phone: chance.phone(),
+            //address: chance.address(),
+            //gender: chance.gender(),
             updated: chance.date().toJSON()
         });
     }
@@ -101,13 +107,6 @@ app.put('/generate-users', function (req, res) {
         });
     });
 
-});
-
-app.get('/users', function (req, res) {
-    var cdb = nano.use('users');
-    cdb.view('info', 'full', function (err, body) {
-        res.send(body);
-    });
 });
 
 // Default folder is the public sub-folder.

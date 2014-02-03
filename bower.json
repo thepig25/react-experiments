@@ -16,6 +16,7 @@
 		"foundation": "5.x",
 		"react": "0.8.x",
 		"showdown": "0.3.x",
-		"marionette": "0.5.x"
+		"marionette": "0.5.x",
+		"lodash": "2.4.x"
 	}
 }
