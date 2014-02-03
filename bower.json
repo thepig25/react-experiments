@@ -19,6 +19,7 @@
 		"lodash": "2.4.x",
 		"underscore": "1.x",
 		"backbone": "1.x",
-		"marionette": "1.x"
+		"marionette": "1.x",
+		"angular": "~1.2.10"
 	}
 }
