@@ -1,10 +1,13 @@
 # React Experiments
 
+Live demo: <http://scottmaclure.github.io/react-experiments/>
+
 ## Goals
 
 * Learn how to use React, Facebook's "new" view/rendering framework.
 * Learn how to integrate Backbone with React, essentially replacing Backbone.View with React.
 * Render a large table with Backbone + React, adding in some behaviours (TBC).
+* Compare against other framework implementations, measure performance using Chrome devtools etc.
 
 ## Requirements
 
