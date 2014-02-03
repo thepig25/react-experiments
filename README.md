@@ -66,6 +66,18 @@ Check out the `scripts/` folder for some JSON generator programs. Typical use:
 node scripts/usersTableDataGenerator.js  > public/data/users-table.json
 ```
 
+## Publishing to gh-pages
+
+For now, I've published the `public/` folder to gh-pages branch.
+
+I've done this by cloning the repo to `react-experiments-gh-pages/` (next to `react-experiments/`), and checking out the `gh-pages` branch.
+
+To sync, there's a script to do this:
+
+```
+./scripts/deploy-gh-pages.sh
+```
+
 ## TODO
 
 ### general
