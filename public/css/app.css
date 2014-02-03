@@ -3,3 +3,14 @@
 table {
 	width: 100%;
 }
+
+td {
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+input {
+	width: auto;
+}
