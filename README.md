@@ -1,10 +1,13 @@
 # React Experiments
 
+Live demo: <http://scottmaclure.github.io/react-experiments/>
+
 ## Goals
 
 * Learn how to use React, Facebook's "new" view/rendering framework.
 * Learn how to integrate Backbone with React, essentially replacing Backbone.View with React.
 * Render a large table with Backbone + React, adding in some behaviours (TBC).
+* Compare against other framework implementations, measure performance using Chrome devtools etc.
 
 ## Requirements
 
@@ -64,6 +67,18 @@ Check out the `scripts/` folder for some JSON generator programs. Typical use:
 
 ```
 node scripts/usersTableDataGenerator.js  > public/data/users-table.json
+```
+
+## Publishing to gh-pages
+
+For now, I've published the `public/` folder to gh-pages branch.
+
+I've done this by cloning the repo to `react-experiments-gh-pages/` (next to `react-experiments/`), and checking out the `gh-pages` branch.
+
+To sync, there's a script to do this:
+
+```
+./scripts/deploy-gh-pages.sh
 ```
 
 ## TODO
