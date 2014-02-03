@@ -15,6 +15,15 @@
             <div class="large-12 columns">
                 <h1>React Table - Test</h1>
                 <p>Large JSON datasource, dynamic table support. Later I might add BackboneJS in there too.</p>
+                <p>Please choose what to render and have a look at the console to know the performance
+                    time.</p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="large-12 columns">
+                <button id="button1" class="button small">ReactTable</button>
+                <button id="button2" class="button small">App</button>
             </div>
         </div>
 
@@ -28,32 +37,63 @@
         <!-- JavaScript libraries -->
         <script src="bower_components/foundation/js/vendor/jquery.js"></script>
         <script src="bower_components/foundation/js/foundation.min.js"></script>
+        <script src="bower_components/lodash/dist/lodash.min.js"></script>
         <script src="bower_components/react/react.min.js"></script>
 
         <!-- Application components. A build step would be nice here. -->
         <script src="build/react-table/ReactTable.js"></script>
+        <script src="build/react-table/app.js"></script>
 
         <!-- Bootstrap JS -->
         <script type="text/javascript">
 
-            // Request a UI-centric data display.
-            var xhr = $.ajax({
+            var xhr1 = $.ajax({
                 cache: false,
                 url: 'data/users-table.json',
                 dataType: 'json'
             });
+            xhr1.done(function (data) {
 
-            xhr.done(function (data) {
+                console.log(data);
 
-                console.time('reactRender');
+                $('#button1').on('click',function () {
+                    console.time('rendering ReactTable');
+                    React.renderComponent(ReactTable(data), document.getElementById('container'));
+                    console.timeEnd('rendering ReactTable');
+                });
+            });
 
-                React.renderComponent(ReactTable(data), document.getElementById('container'));
+            var xhr2 = $.ajax({
+                cache: false,
+                url: '//localhost:5984/users/_design/info/_view/full',
+                dataType: 'json'
+            });
+            xhr2.done(function (data) {
 
-                console.timeEnd('reactRender');
-
+                data.rows.map(function (row, i) {
+                    data.rows[i] = row.value;
+                });
+                console.log(data);
+                $('#button2').on('click',function () {
+                    console.time('rendering App');
+                    React.renderComponent(App(data), document.getElementById('container'));
+                    console.timeEnd('rendering App');
+                });
             });
 
         </script>
+
+        <style>
+            td {
+                -webkit-user-select: none;
+                -moz-user-select: none;
+                -ms-user-select: none;
+                user-select: none;
+            }
+            input {
+                width: auto;
+            }
+        </style>
 
     </body>
 

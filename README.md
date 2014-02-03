@@ -11,8 +11,10 @@
 * node/npm
 * bower
 * git
+* CouchDB
 
 ## Installation and running these experiments
+
 
 From your terminal/git bash console:
 
@@ -24,9 +26,21 @@ npm install
 npm start
 ```
 
-And fire up <http://localhost:3000>
+### CouchDB
+* Install CouchDB if you don't have it already (http://docs.couchdb.org/en/latest/install/index.html) and configure it to run on port :5984 (default. or alter scritps/couchdb.sh otherwise)
+* Enable CORS: https://wiki.apache.org/couchdb/CORS#Enabling_CORS
+* Now you have to create `users` database, db view, and populate it with initial mock data.
+* Make sure CouchDB is running, then from your terminal/git bash console run:
+```sh
+    . scripts/couchdb.sh
+```
+Followong links should show you list of databases you have and list of users
+`http://localhost:5984/_utils/`
+`http://localhost:5984/_utils/database.html?users/`
 
-The index.html page has links to each experiment.
+
+### Fire up
+The index.html page on <http://localhost:3000> has links to each experiment.
 
 ## Offline JSX compiling
 
