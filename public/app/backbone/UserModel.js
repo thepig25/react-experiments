@@ -1,4 +1,3 @@
-/*global Backbone*/
 /*exported UserModel*/
 var UserModel = Backbone.Model.extend({
 

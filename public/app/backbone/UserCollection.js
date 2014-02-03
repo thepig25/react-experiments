@@ -1,4 +1,4 @@
-/*global Backbone, UserModel*/
+/*global UserModel*/
 /*exported UserCollection*/
 var UserCollection = Backbone.Collection.extend({
 	model: UserModel,
