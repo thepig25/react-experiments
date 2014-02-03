@@ -31,11 +31,11 @@
 						    	<th>email</th>
 						    	<th>updated</th>
 							</tr>
-							<tr ng-repeat="eachUser in user.data">
-								<td>{{eachUser.0}}</td>
-								<td>{{eachUser.1}}</td>
-								<td>{{eachUser.2}}</td>
-								<td>{{eachUser.3}}</td>
+							<tr ng-repeat="eachUser in user track by $index">
+								<td>{{eachUser.id}}</td>
+								<td>{{eachUser.fullName}}</td>
+								<td>{{eachUser.email}}</td>
+								<td>{{eachUser.updated}}</td>
 			    			</tr>
 						</table>
 					</div>
