@@ -49,7 +49,6 @@
         <script type="text/javascript">
 
             var xhr1 = $.ajax({
-                cache: false,
                 url: 'data/users-table.json',
                 dataType: 'json'
             });
@@ -65,7 +64,6 @@
             });
 
             var xhr2 = $.ajax({
-                cache: false,
                 url: '//localhost:5984/users/_design/info/_view/full',
                 dataType: 'json'
             });
