@@ -1,20 +1,21 @@
 var app = angular.module('angularTableApp', []);
 
-function UserCtrl ($scope) {
+function UserCtrl ($scope, $http) {
 
 	$scope.user = [];
 
 	$scope.loadUser = function () {
-		var xhr = $.ajax({
-			method: 'POST',
-			url: 'data/users-table.json',
-			data: 'json'
-		});
-
-		xhr.done(function (data) {
-			$scope.user = data;
+		$http({method: 'GET', url: 'data/users-table-angular.json'}).
+			success(function(data, status) {
+				$scope.status = status;
+				$scope.user = data;
+			}).
+			error(function(data, status) {
+		    	$scope.data = data || "Request failed";
+        		$scope.status = status;
 		});
 	};
+
 
 	$scope.loadUser();
 
