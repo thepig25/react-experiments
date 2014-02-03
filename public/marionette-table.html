@@ -67,7 +67,9 @@
 
                     // Render and append DOM using jQuery.
                     // TODO Faster way to render?
+                    console.time('rendering App');
                     $('#container').append(tableView.render().$el);
+                    console.timeEnd('rendering App');
 
                 });
 
