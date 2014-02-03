@@ -67,6 +67,7 @@
 	"globals": {
 		"_": true,
 		"Backbone": true,
-		"React": true
+		"React": true,
+		"angular": true
 	}
 }
