@@ -11,6 +11,13 @@ var FAKE_FAILURE_CHANCE = 0.5;
 var FAKE_LAG_TIMEOUT = 5000;
 var COMMENTS_FILE_PATH = __dirname + '/public/data/comments.json';
 
+// random generation chance.js
+var Chance = require('chance');
+var chance = new Chance();
+
+// CouchDB Database
+var nano = require('nano')('http://localhost:5984');
+
 // Middleware
 app.use(express.bodyParser()); // For form data.
 
@@ -71,6 +78,34 @@ app.post('/addComment', function (req, res) {
 		});
 
 	}.bind(this), FAKE_LAG_TIMEOUT);
+
+});
+
+
+app.put('/generate-users', function (req, res) {
+    var cdb = nano.use('users');
+    var users = {docs: []};
+
+    for (var i = 0; i <= 5000; i++) {
+        var first = chance.first();
+        var last = chance.last();
+        var full = [first, last].join(' ');
+        users.docs.push({
+            firstName: first,
+            lastName: last,
+            email: [full.replace(' ', '_').toLowerCase(), chance.domain()].join('@'),
+            //phone: chance.phone(),
+            //address: chance.address(),
+            //gender: chance.gender(),
+            updated: chance.date().toJSON()
+        });
+    }
+
+    cdb.bulk(users, function (err, body) {
+        res.send({
+            err: err
+        });
+    });
 
 });
 

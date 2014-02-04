@@ -1,0 +1,113 @@
+<!doctype html>
+<html class="no-js" lang="en">
+
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Marionette - Table</title>
+        <link rel="stylesheet" href="bower_components/foundation/css/foundation.css" />
+        <link rel="stylesheet" href="css/app.css" />
+        <script src="bower_components/foundation/js/vendor/modernizr.js"></script>
+    </head>
+
+    <body>
+
+        <div class="row">
+            <div class="large-12 columns">
+                <h1>Marionette Table - Test</h1>
+            </div>
+        </div>
+
+        <!-- Here be rendered HTML by Marionette. -->
+        <div class="row">
+            <div class="large-12 columns">
+                
+                <div id="loading" class="panel callout radius">
+                    <h5>Please wait, loading...</h5>
+                </div>
+                
+                <div id="container"></div>
+
+            </div>
+        </div>
+
+        <!-- JavaScript libraries -->
+        <script src="bower_components/foundation/js/vendor/jquery.js"></script>
+        <script src="bower_components/foundation/js/foundation.min.js"></script>
+        <script src="bower_components/underscore/underscore-min.js"></script>
+        <script src="bower_components/backbone/backbone-min.js"></script>
+        <script src="bower_components/marionette/lib/backbone.marionette.min.js"></script>
+
+        <!-- Application libraries -->
+        <script src="app/backbone/UserModel.js"></script>
+        <script src="app/backbone/UserCollection.js"></script>
+        <script src="app/marionette/TableRowView.js"></script>
+        <script src="app/marionette/TableView.js"></script>
+
+        <!-- Bootstrap Application -->
+        <script type="text/javascript">
+
+            $(document).ready(function () {
+
+                var $loadingPanel = $('#loading');
+                var tableView;
+                var userCollection = new UserCollection();
+
+                userCollection.fetch().done(function () {
+                    
+                    tableView = new TableView({
+                        // TODO Define "columns" here, and pass them down to itemView, for more dynamic display.
+                        model: new Backbone.Model(),
+                        collection: userCollection
+                    });
+
+                    tableView.on('composite:rendered', function () {
+                        $loadingPanel.addClass('hide');
+                    });
+
+                    // Render and append DOM using jQuery.
+                    // TODO Faster way to render?
+                    console.time('rendering App');
+                    $('#container').append(tableView.render().$el);
+                    console.timeEnd('rendering App');
+
+                });
+
+            });
+
+        </script>
+
+        <!-- Table wrapped in div.panel -->
+        <script id="table-template" type="text/html">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Full Name</th>
+                        <th>Email</th>
+                        <th>Updated</th>
+                    </tr>
+                </thead>
+
+                <!-- Insert collection items, here -->
+                <tbody class="itemViewContainer"></tbody>
+
+                <tfoot>
+                    <tr>
+                        <td colspan="4">some footer information. Pagination, perhaps?</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </script>
+
+        <!-- Each user gets rendered in this row template. -->
+        <script id="table-row-template" type="text/html">
+            <td><%= data.id %></td>
+            <td><%= data.fullName %></td>
+            <td><%= data.email %></td>
+            <td><%= data.updated %></td>
+        </script>
+
+    </body>
+
+</html>

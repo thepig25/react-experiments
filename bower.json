@@ -16,7 +16,10 @@
 		"foundation": "5.x",
 		"react": "0.8.x",
 		"showdown": "0.3.x",
-		"marionette": "0.5.x",
+		"lodash": "2.4.x",
+		"underscore": "1.x",
+		"backbone": "1.x",
+		"marionette": "1.x",
 		"angular": "~1.2.10"
 	}
 }
