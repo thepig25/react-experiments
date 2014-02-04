@@ -75,6 +75,8 @@
                 console.log(data);
                 $('#button2').on('click',function () {
                     console.time('rendering App');
+                    data.perPage = 100000;
+                    data.currentpage = 1;
                     React.renderComponent(App(data), document.getElementById('container'));
                     console.timeEnd('rendering App');
                 });
