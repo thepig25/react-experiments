@@ -33,13 +33,20 @@
 						    	<th>email</th>
 						    	<th>updated</th>
 							</tr>
-							<tr ng-repeat="eachUser in user  | filter:searchTable">
+							<tr ng-repeat="eachUser in user  | filter:searchTable | startFrom:currentPage*pageSize | limitTo:pageSize">
 								<td>{{eachUser.id}}</td>
 								<td>{{eachUser.fullName}}</td>
 								<td>{{eachUser.email}}</td>
 								<td>{{eachUser.updated}}</td>
 			    			</tr>
 						</table>
+                         <button ng-disabled="currentPage == 0" ng-click="currentPage=currentPage-1">
+                            Previous
+                        </button>
+                        {{currentPage+1}}/{{numberOfPages()}}
+                        <button ng-disabled="currentPage >= data.length/pageSize - 1" ng-click="currentPage=currentPage+1">
+                            Next
+                        </button>
 					</div>
 					</div>  
                 </div>
