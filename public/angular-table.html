@@ -6,6 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Angular - Tutorial</title>
         <link rel="stylesheet" href="bower_components/foundation/css/foundation.css" />
+        <link rel="stylesheet" href="css/app.css" />
         <script src="bower_components/foundation/js/vendor/modernizr.js"></script>
     </head>
 
@@ -20,12 +21,12 @@
 
         <!-- Angular's container -->
         <div class="row" >
-            <div class="large-12 columns">
+            <div class="large-12 columns angularWrapper">
                 <div id="container" class="panel">
-               <br/>
                 <div ng-app="angularTableApp" >
 					<div ng-controller="UserCtrl">
-                    <input type="text" ng-model="searchTable">
+                    <p>Filter your selection:</p>
+                    <input type="text" ng-model="search" ng-change="filter()" placeholder="Search">
 						<table>
 							<tr>
 						    	<th>id</th>
@@ -33,13 +34,29 @@
 						    	<th>email</th>
 						    	<th>updated</th>
 							</tr>
-							<tr ng-repeat="eachUser in user  | filter:searchTable">
+                            <tr ng-repeat="eachUser in filtered = (user | filter:search) | startFrom:(currentPage-1)*entryLimit | limitTo:entryLimit">
 								<td>{{eachUser.id}}</td>
 								<td>{{eachUser.fullName}}</td>
 								<td>{{eachUser.email}}</td>
 								<td>{{eachUser.updated}}</td>
 			    			</tr>
 						</table>
+                         <button ng-disabled="currentPage == 1" ng-click="currentPage=1">
+                            First
+                        </button>
+                         <button ng-disabled="currentPage == 1" ng-click="currentPage=currentPage-1">
+                            Previous
+                        </button>
+                        {{currentPage}}/{{noOfPages}}
+                        <button ng-disabled="currentPage >= data.length/entryLimit - 1" ng-click="currentPage=currentPage+1">
+                            Next
+                        </button>
+                        <button ng-disabled="noOfPages == 1; currentPage == noOfPages;  " ng-click="currentPage=noOfPages" >
+                            Last
+                        </button>
+
+
+
 					</div>
 					</div>  
                 </div>
