@@ -25,7 +25,7 @@
                <br/>
                 <div ng-app="angularTableApp" >
 					<div ng-controller="UserCtrl">
-                    <input type="text" ng-model="searchTable">
+                    <input type="text" ng-model="search" ng-change="filter()" placeholder="Search">
 						<table>
 							<tr>
 						    	<th>id</th>
@@ -33,13 +33,22 @@
 						    	<th>email</th>
 						    	<th>updated</th>
 							</tr>
-							<tr ng-repeat="eachUser in user  | filter:searchTable">
+                            <tr ng-repeat="eachUser in filtered = (user | filter:search) | startFrom:(currentPage-1)*entryLimit | limitTo:entryLimit">
 								<td>{{eachUser.id}}</td>
 								<td>{{eachUser.fullName}}</td>
 								<td>{{eachUser.email}}</td>
 								<td>{{eachUser.updated}}</td>
 			    			</tr>
 						</table>
+                         <button ng-disabled="currentPage == 0" ng-click="currentPage=currentPage-1">
+                            Previous
+                        </button>
+                        {{currentPage}}/{{noOfPages}}
+                        <button ng-disabled="currentPage >= data.length/entryLimit - 1" ng-click="currentPage=currentPage+1">
+                            Next
+                        </button>
+
+
 					</div>
 					</div>  
                 </div>
