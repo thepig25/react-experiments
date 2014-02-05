@@ -3,8 +3,7 @@ var app = angular.module('angularTableApp', []);
 
 function UserCtrl($scope, $http, $timeout) {
 	$scope.currentPage = 1; //current page
-    $scope.maxSize = 5; //pagination max size
-    $scope.entryLimit = 5; //max rows for data table
+	$scope.entryLimit = 5; //max rows for data table todo make configurable
 	$scope.user = [];	
 	$scope.loadUser = function () {
 		$http({method: 'GET', url: 'data/users-table-angular.json'})
@@ -21,23 +20,24 @@ function UserCtrl($scope, $http, $timeout) {
 			});
 	};	
     
-	$scope.filter = function() {
-		 $timeout(function() { 
-			 //wait for 'filtered' to be changed
+	$scope.filter = function () {
+		$timeout(function () { 
+			//Small timeout to work out filtered content
 			/* change pagination with $scope.filtered */
-			$scope.noOfPages = Math.ceil($scope.filtered.length/$scope.entryLimit);
+			$scope.noOfPages = Math.ceil($scope.filtered.length / $scope.entryLimit);
 			$scope.currentPage = 1;
 		}, 10);
 	};
 	$scope.loadUser();
 
 }
-app.filter('startFrom', function() {
-    return function(input, start) {
-        if(input) {
-            start = +start; //parse to int
-            return input.slice(start);
-        }
-        return [];
-    }
+//A filtering app
+app.filter('startFrom', function () {
+	return function (input, start) {
+		if (input) {
+			start = +start;
+			return input.slice(start);
+		}
+		return [];
+	};
 });
