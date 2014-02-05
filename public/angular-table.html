@@ -6,6 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Angular - Tutorial</title>
         <link rel="stylesheet" href="bower_components/foundation/css/foundation.css" />
+        <link rel="stylesheet" href="css/app.css" />
         <script src="bower_components/foundation/js/vendor/modernizr.js"></script>
     </head>
 
@@ -20,7 +21,7 @@
 
         <!-- Angular's container -->
         <div class="row" >
-            <div class="large-12 columns">
+            <div class="large-12 columns angularWrapper">
                 <div id="container" class="panel">
                <br/>
                 <div ng-app="angularTableApp" >
@@ -43,10 +44,17 @@
                          <button ng-disabled="currentPage == 0" ng-click="currentPage=currentPage-1">
                             Previous
                         </button>
+                         <button ng-disabled="currentPage == 0" ng-click="currentPage=currentPage-1">
+                            Previous
+                        </button>
                         {{currentPage}}/{{noOfPages}}
                         <button ng-disabled="currentPage >= data.length/entryLimit - 1" ng-click="currentPage=currentPage+1">
                             Next
                         </button>
+                        <button ng-disabled="currentPage >= data.length/entryLimit - 1" ng-click="currentPage=currentPage+1">
+                            Last
+                        </button>
+
 
 
 					</div>
