@@ -4,24 +4,20 @@
 
 var maxRows = 5000;
 
-var usersTableData = {
-	'headers': [
-		'id',
-		'fullName',
-		'email',
-		'updated'
-	],
-	'data': []
-};
+var userData = [];
 
 for (var i = 1; i <= maxRows; i++) {
-	var paddedId = ('000' + i).slice(-4); // Pad to 4 characters. Won't work over 9999.
-	usersTableData.data.push([
-		paddedId,
-		'Robot Man #' + paddedId,
-		'robotman.' + paddedId + '@smith.com',
-		new Date()
-	]);
+
+	// Pad to 4 characters. Won't work over 9999.
+	var paddedId = ('000' + i).slice(-4); 
+
+	userData.push({
+		id: paddedId,
+		fullName: 'Robot Man #' + paddedId,
+		email: 'robotman.' + paddedId + '@smith.com',
+		updated: new Date()
+	});
+
 }
 
-console.log(JSON.stringify(usersTableData, null, 4));
+console.log(JSON.stringify(userData, null, 4));
