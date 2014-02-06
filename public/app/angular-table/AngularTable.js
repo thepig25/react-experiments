@@ -7,7 +7,7 @@ function UserCtrl($scope, $http, $timeout) {
 	$scope.lastPage = 5;
 	$scope.user = [];	
 	$scope.loadUser = function () {
-		$http({method: 'GET', url: 'data/users-table-angular.json'})
+		$http({method: 'GET', url: 'data/users.json'})
 			.success(function (data, status) {
 				$scope.status = status;
 				$scope.user = data;
