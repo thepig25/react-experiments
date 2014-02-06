@@ -32,20 +32,16 @@ var PaginatedTableView = Backbone.Marionette.ItemView.extend({
 	/**
 	 * Used to (re) init all pagination data and models etc.
 	 */
-	initPagination: function (defaultPagination) {
+	initPagination: function (options) {
 
-		this.pagination = {};
-		
-		this.pagination.perPage = defaultPagination.perPage || 50;
-		this.pagination.currentPage = defaultPagination.currentPage || 0;
+		this.pagination = _.extend({
+			perPage: 50,
+			currentPage: 0,
+			perPageSelectorOptions: [25, 50, 100, 500]
+		}, (this.pagination || {}), options);
 
 		this.pagination.totalPages = Math.ceil(this.collection.length / this.pagination.perPage);
 
-		this.pagination.startPagerRange = 0;
-		this.pagination.endPagerRange = 5;
-
-		this.pagination.perPageSelectorOptions = [25, 50, 100, 500, 1000, 5000];
-		
 		// Group models into pages.
 		this.pageModels();
 
