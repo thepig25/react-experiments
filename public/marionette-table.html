@@ -41,28 +41,35 @@
         <!-- Application libraries -->
         <script src="app/backbone/UserModel.js"></script>
         <script src="app/backbone/UserCollection.js"></script>
-        <script src="app/marionette/TableRowView.js"></script>
-        <script src="app/marionette/TableView.js"></script>
+        <script src="app/marionette/PaginatedTableView.js"></script>
 
         <!-- Bootstrap Application -->
         <script type="text/javascript">
 
             $(document).ready(function () {
 
-                var $loadingPanel = $('#loading');
-                var tableView;
                 var userCollection = new UserCollection();
+                var $loadingElem = $('#loading');
 
                 userCollection.fetch().done(function () {
                     
-                    tableView = new TableView({
+                    // TODO Use Marionette's regions/layouts.
+                    var tableView = new PaginatedTableView({
                         // TODO Define "columns" here, and pass them down to itemView, for more dynamic display.
-                        model: new Backbone.Model(),
-                        collection: userCollection
+                        collection: userCollection,
+                        pagination: {
+                            // Default pagination settings.
+                            perPage: 25,
+                            perPageSelectorOptions: [25, 50, 100, 500, 10000]
+                        },
+                        // Document ready matters here!
+                        rowTemplateHtml: $('#table-row-template').html(),
+                        paginationTemplateHtml: $('#pagination-template').html()
                     });
 
-                    tableView.on('composite:rendered', function () {
-                        $loadingPanel.addClass('hide');
+                    // Nice way to decouple the loading display from the table view.
+                    tableView.on('item:rendered', function () {
+                        $loadingElem.addClass('hide');
                     });
 
                     // Render and append DOM using jQuery.
@@ -89,23 +96,64 @@
                     </tr>
                 </thead>
 
-                <!-- Insert collection items, here -->
-                <tbody class="itemViewContainer"></tbody>
+                <tbody class="rowsContainer"></tbody>
 
                 <tfoot>
                     <tr>
-                        <td colspan="4">some footer information. Pagination, perhaps?</td>
+                        <td colspan="4" class="paginationContainer"></td>
                     </tr>
                 </tfoot>
+
             </table>
         </script>
 
         <!-- Each user gets rendered in this row template. -->
         <script id="table-row-template" type="text/html">
-            <td><%= data.id %></td>
-            <td><%= data.fullName %></td>
-            <td><%= data.email %></td>
-            <td><%= data.updated %></td>
+            <tr>
+                <td><%= data.id %></td>
+                <td><%= data.get('fullName') %></td>
+                <td><%= data.get('email') %></td>
+                <td><%= data.get('updated') %></td>
+            </tr>
+        </script>
+
+        <script id="pagination-template" type="text/html">
+            
+            <div class="row">
+                <div class="large-10 columns">
+
+                    <div class="pagination-centered">
+                        <ul class="pagination">
+                            
+                            <li class="arrow <%= data.currentPage === 0 ? 'unavailable' : '' %>">
+                                <a href="#" data-pagerIndex="<%= data.currentPage - 1 %>">&laquo;</a>
+                            </li>
+                            
+                            <% for (var i = data.startPagerRange; i < data.endPagerRange; i++) { %>
+                                <li class="<%= (data.currentPage === i) ? 'current' : '' %>">
+                                    <a href="#" data-pagerIndex="<%= i %>"><%= i + 1 %></a>
+                                </li>
+                            <% } %>
+                                                
+                            <li class="arrow <%= (data.currentPage >= data.totalPages) ? 'unavailable' : '' %>">
+                                <a href="#" data-pagerIndex="<%= data.currentPage + 1 %>">&raquo;</a>
+                            </li>
+
+                        </ul>
+                    </div>
+
+                </div>
+                <div class="large-2 columns">
+
+                    <select class="perPageSelector">
+                        <% _.each(data.perPageSelectorOptions, function (num) { %>
+                            <option <%= data.perPage == num ? 'selected' : '' %>><%= num %></option>
+                        <% }); %>
+                    </select>
+
+                </div>
+            </div>
+
         </script>
 
     </body>
