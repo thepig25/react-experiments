@@ -1,4 +1,4 @@
-# React Experiments
+# React Experiments Old Demo
 
 Live demo: <http://scottmaclure.github.io/react-experiments/>
 
