@@ -9,10 +9,15 @@ function UserCtrl($scope, $http, $timeout) {
 	$scope.loadUser = function () {
 		$http({method: 'GET', url: 'data/users.json'})
 			.success(function (data, status) {
+				console.time('reactRender');
 				$scope.status = status;
+				var start = new Date();
 				$scope.user = data;
+				 setTimeout( function () {
+			      // Logs when Angular is done processing repeater
+					console.timeEnd('angularRender');
+			    }); // Leave timeout empty to fire on next tick
 				$scope.noOfPages = $scope.user.length / $scope.entryLimit;//Starting number for data pagination overridden later
-
 
 			})
 			.error(function (data, status) {
