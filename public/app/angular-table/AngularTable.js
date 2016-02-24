@@ -3,9 +3,9 @@ var app = angular.module('angularTableApp', []);
 
 function UserCtrl($scope, $http, $timeout) {
 	$scope.currentPage = 1; //current page
-	$scope.entryLimit = 5; //max rows for data table todo make configurable
+	$scope.entryLimit = 100000; //max rows for data table todo make configurable
 	$scope.lastPage = 5;
-	$scope.user = [];	
+	$scope.user = [];
 	$scope.loadUser = function () {
 		$http({method: 'GET', url: 'data/users.json'})
 			.success(function (data, status) {
@@ -19,10 +19,10 @@ function UserCtrl($scope, $http, $timeout) {
 				$scope.data = data || 'Request failed';
 				$scope.status = status;
 			});
-	};	
-    
+	};
+
 	$scope.filter = function () {
-		$timeout(function () { 
+		$timeout(function () {
 			//Small timeout to work out filtered content
 			/* change pagination with $scope.filtered */
 			$scope.noOfPages = Math.ceil($scope.filtered.length / $scope.entryLimit);
