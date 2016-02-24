@@ -4,7 +4,6 @@
 
 # Dependencies
 node_modules
-public/bower_components
 
 # Compiled files
 public/build
