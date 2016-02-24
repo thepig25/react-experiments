@@ -9,7 +9,7 @@ function UserCtrl($scope, $http, $timeout) {
 	$scope.loadUser = function () {
 		$http({method: 'GET', url: 'data/users.json'})
 			.success(function (data, status) {
-				console.time('reactRender');
+				console.time('angularRender');
 				$scope.status = status;
 				var start = new Date();
 				$scope.user = data;
