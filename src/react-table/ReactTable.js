@@ -125,13 +125,6 @@ var ReactTable = React.createClass({
 		return (
 			<div className="reactTable">
 
-				<div class="tools">
-					<button onClick={this.toggleSearch}>search</button>
-				or download:
-					<a href="data.csv"  onClick={this.export.bind(this, 'csv')} >csv</a>
-					<a href="data.json" onClick={this.export.bind(this, 'json')}>json</a>
-				</div>
-
 				<table>
 					<thead onClick={this.sort}>
 						<tr>

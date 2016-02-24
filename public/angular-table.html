@@ -15,7 +15,7 @@
         <div class="row">
             <div class="large-12 columns">
                 <h1>Angular Table - Test</h1>
-                <p>Large JSON datasource, dynamic table support. Later I might add BackboneJS and angular in there too.</p>
+                <p>Large JSON datasource</p>
             </div>
         </div>
 
@@ -25,8 +25,6 @@
                 <div id="container" class="panel">
                 <div ng-app="angularTableApp" >
 					<div ng-controller="UserCtrl">
-                    <p>Filter your selection:</p>
-                    <input type="text" ng-model="search" ng-change="filter()" placeholder="Search">
 						<table>
 							<tr>
 						    	<th>id</th>
@@ -41,22 +39,6 @@
 								<td>{{eachUser.updated}}</td>
 			    			</tr>
 						</table>
-                        <div class="buttonPageSet" >
-                             <button ng-disabled="currentPage == 1" ng-click="currentPage=1">
-                                First
-                            </button>
-                             <button ng-disabled="currentPage == 1" ng-click="currentPage=currentPage-1">
-                                Previous
-                            </button>
-                            {{currentPage}}/{{noOfPages}}
-                            <button ng-disabled="currentPage >= data.length/entryLimit - 1; currentPage  == noOfPages; " ng-click="currentPage=currentPage+1">
-                                Next
-                            </button>
-                            <button ng-disabled="noOfPages == 1; currentPage  == noOfPages;  " ng-click="currentPage=noOfPages" >
-                                Last
-                            </button>
-                             Number of Results Per Page:
-                        </div>
                         <input type="text" ng-model="entryLimit" ng-change="filter()"  placeholder="{{entryLimit}}" class="filterPageLength">
 
 

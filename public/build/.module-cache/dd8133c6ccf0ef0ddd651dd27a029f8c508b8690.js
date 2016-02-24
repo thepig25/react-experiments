@@ -125,7 +125,7 @@ var ReactTable = React.createClass({displayName: 'ReactTable',
 		return (
 			React.DOM.div( {className:"reactTable"}, 
 
-				React.DOM.table(null, 
+				React.DOM.table( {style:"width:100%;"}, 
 					React.DOM.thead( {onClick:this.sort}, 
 						React.DOM.tr(null, 
 						this.state.headers.map(function(cell, idx) {
